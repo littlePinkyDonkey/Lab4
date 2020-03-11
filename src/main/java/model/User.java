@@ -1,11 +1,13 @@
 package model;
 
 import javax.persistence.*;
-import java.security.NoSuchAlgorithmException;
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-public class User {
+@Entity(name = "users")
+@Table(schema = "web")
+@NamedQuery(name = "getUserByLogin", query = "from users where login=:login")
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,17 +15,20 @@ public class User {
     @Column(name = "LOGIN", nullable = false, unique = true)
     private String login;
 
-    @Column(name = "PASSWORD", nullable = false)
-    private String password;
+    @Column(name = "PASSWORD_HASH", nullable = false)
+    private String passwordHash;
+    
+    @Column(name = "SALT", nullable = false)
+    private String salt;
 
     public User() {
         id = null;
         login = null;
-        password = null;
+        passwordHash = null;
     }
-    public User(String login, String password) throws NoSuchAlgorithmException {
+    public User(String login, String passwordHash) {
         this.login = login;
-        this.password = password;
+        this.passwordHash = passwordHash;
     }
 
     public long getId() {
@@ -32,8 +37,11 @@ public class User {
     public String getLogin() {
         return login;
     }
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+    public String getSalt(){
+        return salt;
     }
 
     public void setId(long id) {
@@ -42,8 +50,11 @@ public class User {
     public void setLogin(String login) {
         this.login = login;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+    public void setSalt(String salt){
+        this.salt = salt;
     }
 
     @Override
@@ -53,12 +64,13 @@ public class User {
 
         User user = (User) obj;
         return id.equals(user.id)
-                && password.equals(user.password)
-                && login.equals(user.login);
+                && passwordHash.equals(user.passwordHash)
+                && login.equals(user.login) 
+                && salt.equals(user.salt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,login,password);
+        return Objects.hash(id,login, passwordHash, salt);
     }
 }

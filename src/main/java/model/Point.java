@@ -4,22 +4,23 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity(name = "points")
+@Table(schema = "web")
 public class Point implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "X")
+    @Column(name = "X", nullable = false)
     private double x;
 
-    @Column(name = "Y")
+    @Column(name = "Y", nullable = false)
     private double y;
 
-    @Column(name = "R")
+    @Column(name = "R", nullable = false)
     private double r;
 
-    @Column(name = "HIT")
+    @Column(name = "HIT", nullable = false)
     private boolean hit;
 
     public Point() {
@@ -28,6 +29,13 @@ public class Point implements Serializable {
         this.x = x;
         this.y = y;
         this.r = r;
+    }
+
+    public Point(double x, double y, double r, boolean hit) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.hit = hit;
     }
 
     public long getId() {
@@ -64,5 +72,10 @@ public class Point implements Serializable {
 
     public boolean checkHit() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return x + " " + y + " " + r;
     }
 }
