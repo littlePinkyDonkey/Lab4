@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Entity(name = "points")
 @Table(schema = "web")
+@NamedQuery(name = "getPointByOwner", query = "from points p where p.owner = :owner")
 public class Point implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +23,9 @@ public class Point implements Serializable {
 
     @Column(name = "HIT", nullable = false)
     private boolean hit;
+
+    @Column(name = "OWNER", nullable = false)
+    private String owner;
 
     public Point() {
     }
@@ -50,6 +54,9 @@ public class Point implements Serializable {
     public double getR() {
         return r;
     }
+    public String getOwner(){
+        return owner;
+    }
     public boolean isHit() {
         return hit;
     }
@@ -66,16 +73,14 @@ public class Point implements Serializable {
     public void setR(double r) {
         this.r = r;
     }
+    public void setOwner(String owner){
+        this.owner = owner;
+    }
     public void setHit(boolean hit) {
         this.hit = hit;
     }
 
     public boolean checkHit() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return x + " " + y + " " + r;
     }
 }

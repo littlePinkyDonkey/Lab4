@@ -13,25 +13,33 @@ public class PointDao {
         this.factory = FactoryCreator.getInstance().getFactory();
     }
 
-    public void addPoint(Point point){
+    public boolean addPoint(Point point){
         EntityManager manager = factory.createEntityManager();
         EntityTransaction transaction = manager.getTransaction();
 
         try {
             transaction.begin();
+
             manager.persist(point);
             manager.flush();
+
             transaction.commit();
+
+            return true;
         }catch (Exception e) {
             transaction.rollback();
+            return false;
         }finally {
             manager.close();
         }
     }
 
-    public List<Point> getAllPoints(){
+    public List<Point> getPointsByOwner(String owner)   {
         EntityManager manager = factory.createEntityManager();
 
-        return manager.createQuery("from points", Point.class).getResultList();
+        return manager
+                .createNamedQuery("getPointByOwner", Point.class)
+                .setParameter("owner",owner)
+                .getResultList();
     }
 }

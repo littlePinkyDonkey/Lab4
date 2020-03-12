@@ -17,6 +17,9 @@ public class User implements Serializable {
 
     @Column(name = "PASSWORD_HASH", nullable = false)
     private String passwordHash;
+
+    @Transient
+    private String password;
     
     @Column(name = "SALT", nullable = false)
     private String salt;
@@ -26,9 +29,9 @@ public class User implements Serializable {
         login = null;
         passwordHash = null;
     }
-    public User(String login, String passwordHash) {
+    public User(String login, String password) {
         this.login = login;
-        this.passwordHash = passwordHash;
+        this.password = password;
     }
 
     public long getId() {
@@ -39,6 +42,9 @@ public class User implements Serializable {
     }
     public String getPasswordHash() {
         return passwordHash;
+    }
+    public String getPassword(){
+        return password;
     }
     public String getSalt(){
         return salt;
@@ -52,6 +58,9 @@ public class User implements Serializable {
     }
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+    public void setPassword(String password){
+        this.password = password;
     }
     public void setSalt(String salt){
         this.salt = salt;
