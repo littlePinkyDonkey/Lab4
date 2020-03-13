@@ -8,8 +8,8 @@ import java.util.List;
 public class PointService {
     private PointDao dao;
 
-    public PointService(PointDao dao){
-        this.dao = dao;
+    public PointService(){
+        this.dao = new PointDao();
     }
 
     public boolean addPoint(Point point){

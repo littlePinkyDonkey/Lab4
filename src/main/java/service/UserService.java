@@ -14,8 +14,8 @@ public class UserService {
     private final int SALT_LENGTH = 12;
     private final String PASSWORD_HASH_ALGORITHM = "SHA-1";
 
-    public UserService(UserDao dao){
-        this.dao = dao;
+    public UserService(){
+        this.dao = new UserDao();
     }
 
     public User getUserByLogin(String login){
@@ -30,6 +30,10 @@ public class UserService {
         user.setPasswordHash(passwordHash);
 
         return dao.addUser(user);
+    }
+
+    public boolean checkAccess(User user, String password){
+        return user.getPasswordHash().equals(hash(password,user.getSalt()));
     }
 
     private String hash(String password, String salt){
