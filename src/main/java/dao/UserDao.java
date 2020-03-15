@@ -20,7 +20,9 @@ public class UserDao {
         return manager
                 .createNamedQuery("getUserByLogin",User.class)
                 .setParameter("login",login)
-                .getSingleResult();
+                .getResultStream()
+                .findAny()
+                .orElse(null);
     }
 
     public boolean addUser(User user){

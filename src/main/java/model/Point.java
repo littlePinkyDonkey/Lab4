@@ -1,6 +1,8 @@
 package model;
 
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -133,5 +135,16 @@ public class Point implements Serializable {
         }
 
         return false;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("x", x);
+        jsonObject.put("y", y);
+        jsonObject.put("r", r);
+        jsonObject.put("entered", hit);
+
+        return jsonObject;
     }
 }
