@@ -23,7 +23,7 @@ public class UserBean {
     public String signUp(InputStream json) throws IOException {
         JSONObject jsonObject = new JSONObject(Converter.convert(json, StandardCharsets.UTF_8));
         JSONObject response = new JSONObject();
-        response.put("authStatus","failed");
+        response.put("authStatus","already exist");
 
         User user = new User();
         user.setLogin(jsonObject.getString("username"));

@@ -2,13 +2,16 @@ package beans;
 
 import model.Point;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import service.PointService;
+import util.Converter;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Stateless
@@ -18,7 +21,25 @@ public class PointBean {
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     public String addPoint(InputStream json) throws IOException {
-        return "";
+        JSONObject jsonObject = new JSONObject(Converter.convert(json, StandardCharsets.UTF_8));
+        JSONObject response = new JSONObject();
+
+        Point point = new Point();
+        point.setX(jsonObject.getDouble("x"));
+        point.setY(jsonObject.getDouble("y"));
+        point.setR(jsonObject.getDouble("r"));
+        point.setOwner(jsonObject.getString("user"));
+        point.setHit(point.checkHit());
+
+        PointService service = new PointService();
+
+        if (service.addPoint(point)) {
+            response.put("response", "OK");
+        } else {
+            response.put("response", "unknown error");
+        }
+
+        return response.toString();
     }
 
     @GET
