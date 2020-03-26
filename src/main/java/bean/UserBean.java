@@ -6,6 +6,7 @@ import main.java.service.UserService;
 import main.java.util.Converter;
 
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +21,7 @@ public class UserBean {
 
     @POST
     @Path("/reg")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String signUp(InputStream json) throws IOException {
         JSONObject jsonObject = new JSONObject(Converter.convert(json, StandardCharsets.UTF_8));
@@ -39,6 +41,7 @@ public class UserBean {
 
     @POST
     @Path("/log")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String signIn(InputStream json) throws IOException {
         JSONObject jsonObject = new JSONObject(Converter.convert(json,StandardCharsets.UTF_8));

@@ -19,6 +19,7 @@ import java.util.List;
 public class PointBean {
     @POST
     @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String addPoint(InputStream json) throws IOException {
         JSONObject jsonObject = new JSONObject(Converter.convert(json, StandardCharsets.UTF_8));
@@ -44,6 +45,7 @@ public class PointBean {
 
     @GET
     @Path("{username}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String getHistory(@PathParam("username") String username){
         JSONArray history = new JSONArray();
